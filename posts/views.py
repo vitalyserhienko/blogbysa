@@ -70,7 +70,6 @@ def like(request, post_id):
 @login_required(login_url='/sign-in/')
 def posts_list(request):
     posts_list = Post.objects.all().order_by('-id')
-
     query = request.GET.get('q')
     if query:
         posts_list = posts_list.filter(
