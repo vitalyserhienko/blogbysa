@@ -57,6 +57,7 @@ def sign_up(request):
         'profile_form': profile_form
 })
 
+@login_required(login_url='/sign-in/')
 def like(request, post_id):
     obj = get_object_or_404(Post, pk=post_id)
     user = request.user
@@ -93,16 +94,18 @@ def post_detail(request, post_id):
     post = Post.objects.get(id = post_id)
     return render(request, 'posts/details.html', {'post': post})
 
+@login_required(login_url='/sto/sign-in/')
 def add_comment_to_post(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
+    post = Post.objects.get(id = post_id)
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
-            comment.comment_post = post.post_id
+            comment.comment_post = post
+            print('post: ' + str(post))
             comment.comment_author = request.user
             comment.save()
-            return redirect('post_detail', id=post.post_id)
+            return redirect('post-detail', post_id=post_id)
     else:
         form = CommentForm()
     return render(request, 'posts/add_comment.html', {'form': form})

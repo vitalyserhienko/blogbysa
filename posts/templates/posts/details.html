@@ -16,8 +16,8 @@
 </ul>
 </div>
 <div class="mx-auto" style="width: 800px;">
-<a class="btn btn-default" href="{% url 'add_comment_to_post' post.post_id %}">Add comment</a>
-{% for comment in post.comments.all %}
+<div class="mx-auto p-3 card" style="width: 800px;">
+{% for comment in post.comment_post.all %}
     <div class="comment">
         <div class="date">{{ comment.comment_created_date }}</div>
         <strong>{{ comment.comment_author }}</strong>
@@ -26,5 +26,7 @@
 {% empty %}
     <p>No comments yet.</p>
 {% endfor %}
+<a class="btn btn-outline-info" href="{% url 'add-comment' post.id %}">Add comment</a>
+</div>
 </div>
 {% endblock %}

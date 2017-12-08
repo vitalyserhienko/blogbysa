@@ -1,9 +1,14 @@
 {% extends 'main.html' %}
 {% load bootstrap4 %}
 {% block content %}
-<h1>New comment</h1>
-    <form method="POST" class="post-form">{% csrf_token %}
-        {{ form.as_p }}
+<div class="mx-auto" style="width: 500px;">
+  <div class='card'>
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
         <button type="submit" class="save btn btn-default">Send</button>
     </form>
+  </div>
+</div>
+
 {% endblock %}
