@@ -1,1 +1,1 @@
-web: gunicorn catalog.wsgi --log-file -
+web: gunicorn social.wsgi --log-file -
