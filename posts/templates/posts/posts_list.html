@@ -1,0 +1,67 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="mx-auto" style="width: 800px;">
+<div class="row p-3">
+  <form method='GET' action=''>
+    <div class="form-inline my-3 my-lg-2">
+      <div class="col-auto">
+        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
+          <option selected>Choose Country...</option>
+          {% for post in posts_list %}
+          <option value="{{ post.post_counrty }}" name='city'>{{ post.post_country }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
+        <option selected>Choose City...</option>
+        {% for post in posts_list %}
+        <option value="{{ post.post_city }}" name='counrty'>{{ post.post_city }}</option>
+        {% endfor %}
+      </select>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </form>
+  <form method='GET' action='' class="form-inline my-3 my-lg-2">
+    <input class="form-control mr-sm-2" type="text" name='q' value='{{ request.GET.q }}' placeholder="Search" aria-label="Search">
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+  </div>
+</div>
+<div class="mx-auto" style="width: 800px;">
+<ul class="list-group">
+    {% for post in posts_list %}
+      <li class="list-group-item">
+        <img src="{{ post.post_photo.url }}" height="250"><br>
+        Title: {{ post.post_title }}<br>
+        Counrty: {{ post.post_country }}<br>
+        City: {{ post.post_city }}<br>
+        Text: {{ post.post_content }}<br>
+        Date: {{ post.post_date }}<br>
+        <a href="{% url 'like' post.id %}" title="Like!">Likes: {{ post.post_likes.count }}</a><br>
+        <a href="{% url 'post-detail' post.id %}" class="btn btn-outline-primary">Detailed {{ post.comments.count }}</a>
+        <a href="{% url 'post-edit' post.id %}" class="btn btn-outline-success">Edit</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+<div class="mx-auto" style="width: 200px;">
+  <div class="pagination">
+    <span class="step-links">
+        {% if posts_list.has_previous %}
+            <a href="?page={{ posts_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><<</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ posts_list.number }} of {{ posts_list.paginator.num_pages }}.
+        </span>
+
+        {% if posts_list.has_next %}
+            <a href="?page={{ posts_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">>></a>
+        {% endif %}
+    </span>
+  </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'main.html' %}
+{% load bootstrap4 %}
+{% block content %}
+<div class="mx-auto" style="width: 800px;">
+<ul class="list-group">
+<li class="list-group-item">
+  <img src="{{ post.post_photo.url }}" height="250"><br>
+  Title: {{ post.post_title }}<br>
+  Counrty: {{ post.post_country }}<br>
+  City: {{ post.post_city }}<br>
+  Text: {{ post.post_content }}<br>
+  Date: {{ post.post_date }}<br>
+  <a href="{% url 'like' post.id %}" title="Like!">Likes: {{ post.post_likes.count }}</a><br>
+  <a href="{% url 'post-edit' post.id %}" class="btn btn-outline-success">Edit</a>
+</li>
+</ul>
+</div>
+<div class="mx-auto" style="width: 800px;">
+<a class="btn btn-default" href="{% url 'add_comment_to_post' post.post_id %}">Add comment</a>
+{% for comment in post.comments.all %}
+    <div class="comment">
+        <div class="date">{{ comment.comment_created_date }}</div>
+        <strong>{{ comment.comment_author }}</strong>
+        <p>{{ comment.comment_text|linebreaks }}</p>
+    </div>
+{% empty %}
+    <p>No comments yet.</p>
+{% endfor %}
+</div>
+{% endblock %}
